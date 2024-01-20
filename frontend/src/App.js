@@ -1,24 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+
+import Dashboard from './pages/main';
+import SmartAuth from './pages/smartAuth';
+import Config from './pages/config';
+
+/** React Router DOM **/
+// import ReactDOM from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/smartAuth" element={<SmartAuth />} />
+        <Route path="/config" element={<Config />}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
