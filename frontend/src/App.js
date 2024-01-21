@@ -2,7 +2,7 @@ import "./App.css";
 import Dashboard from "./pages/main";
 import SmartAuth from "./pages/smartAuth";
 import Config from "./pages/config";
-import ListConfig from "./pages/listConfig";
+import ListConfig from "./pages/listConfig2";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { withAuthenticator } from '@aws-amplify/ui-react';
@@ -19,9 +19,6 @@ function App({ signOut, user }) {
           <Route path="/list-config" element={<ListConfig />} />
         </Routes>
       </BrowserRouter>
-
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
     </>
   );
 }

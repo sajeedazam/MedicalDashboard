@@ -62,7 +62,7 @@ const ApplicationList = () => {
       // Handle the error
     }
 
-    console.log("Hello World");
+    window.location.reload();
   };
   const handleEdit = (projectID) => {
     // Redirect new page
@@ -107,7 +107,8 @@ const ApplicationList = () => {
               {projectList.map((app, index) => (
                 <tr key={index} className="hover:bg-grey-lighter">
                   <td className="py-4 px-6 border-b border-grey-light">
-                    {app.project_name}
+                    <a href="/config">{app.project_name}</a>
+                    
                   </td>
                   <td className="py-4 px-6 border-b border-grey-light text-right">
                     {app.created_date}

@@ -44,19 +44,19 @@ const Checklist = () => {
     }
   };
 
-  const fetchConfig = async (userID, projectID) => {
-    const url = `https://bkqwkigeji.execute-api.ca-central-1.amazonaws.com/prod/appData?user_id=${userID}&project_id=${projectID}`;
+  // const fetchConfig = async (userID, projectID) => {
+  //   const url = `https://bkqwkigeji.execute-api.ca-central-1.amazonaws.com/prod/appData?user_id=${userID}&project_id=${projectID}`;
     
-    try {
-      const response = await axios.get(url);
-      setProjectList(response.data);
-      console.log("::: ", url, response.data);
-      // Handle the response data as needed
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      // Handle the error
-    }
-  };
+  //   try {
+  //     const response = await axios.get(url);
+  //     setProjectList(response.data);
+  //     console.log("::: ", url, response.data);
+  //     // Handle the response data as needed
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //     // Handle the error
+  //   }
+  // };
 
   return (
     <React.Fragment>
