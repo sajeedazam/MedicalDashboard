@@ -1,11 +1,8 @@
-import './App.css';
-
-import Dashboard from './pages/main';
-import SmartAuth from './pages/smartAuth';
-import Config from './pages/config';
-
-/** React Router DOM **/
-// import ReactDOM from "react-dom/client";
+import "./App.css";
+import Dashboard from "./pages/main";
+import SmartAuth from "./pages/smartAuth";
+import Config from "./pages/config";
+import ListConfig from "./pages/listConfig";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -14,7 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/smartAuth" element={<SmartAuth />} />
-        <Route path="/config" element={<Config />}/>
+        <Route path="/config" element={<Config />} />
+        <Route path="/list-config" element={<ListConfig />} />
       </Routes>
     </BrowserRouter>
   );
