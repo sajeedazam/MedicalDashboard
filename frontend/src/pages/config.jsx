@@ -5,6 +5,8 @@ import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
+import { fetchUserAttributes } from 'aws-amplify/auth';
+
 export default function Config() {
   const [clientReady, setClientReady] = useState(false);
   const [client, setClient] = useState(null);
@@ -22,7 +24,20 @@ export default function Config() {
       .catch((err) => {
         console.log(err);
       });
+    
+      // Async operation
+      asyncOp();
   }, []);
+
+  // Async operation
+  async function asyncOp(){
+    try {
+      const userAttributes = await fetchUserAttributes();
+      console.log("userAttributes: ", userAttributes);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // Resolver funcitons
   async function onResolve(client) {
