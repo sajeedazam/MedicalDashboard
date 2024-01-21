@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import FHIR from 'fhirclient';
-
+const fs = require('fs');
 
 export default function Config(){
     const [clientReady, setClientReady] = useState(false);
@@ -23,6 +23,17 @@ export default function Config(){
         // FHIR Request Operations
         await client.request(`Patient/${client.patient.id}`).then((patient) => {
             console.log("patient: ", patient);
+        }).catch((err =>{
+            console.log(err);
+        }));
+
+        // FHIR Request Operations
+        await client.request(`Observation/?patient=${client.patient.id}`).then((patient) => {
+            console.log("Observation: ", patient);
+            
+            // Write response to a JSON file
+            fs.writeFileSync('response.json', JSON.stringify(patient.data));
+
         }).catch((err =>{
             console.log(err);
         }));
