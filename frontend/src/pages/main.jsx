@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/logo.png";
 
 const mockData = [
   { title: "Optimizing Sedation", creationTime: "Jan 20, 2024" },
@@ -12,8 +13,27 @@ const handleEditDelete = () => {
 };
 
 const ApplicationList = () => {
+  let username = "mockEmail";
   return (
     <div className="container mx-auto px-4">
+      {/* Header */}
+      <header className="flex justify-between items-center py-4 px-6 bg-black">
+        {/* Logo and Username */}
+        <div className="flex items-center">
+          <img src={logo} alt="FocusFHIR Logo" className="h-14" />
+          <span className="ml-4 text-white font-semibold text-xl tracking-tight">
+            {username}
+          </span>
+        </div>
+
+        {/* Logout Button */}
+        <div>
+          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            Logout
+          </button>
+        </div>
+      </header>
+
       <div className="flex justify-between items-center my-6">
         <h1 className="text-2xl font-bold">Applications List</h1>
         <button
