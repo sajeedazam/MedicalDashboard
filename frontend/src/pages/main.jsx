@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
+import Header from "../widgets/header";
+import axios from 'axios';
+import { fetchUserAttributes } from 'aws-amplify/auth';
 
 const mockData = [
   { title: "Optimizing Sedation", creationTime: "Jan 20, 2024" },
@@ -8,84 +11,122 @@ const mockData = [
   { title: "Children Lungs Dashboard", creationTime: "Sep 07, 2023" },
 ];
 
-const handleEditDelete = () => {
-  console.log("Hello World");
-};
-
 const ApplicationList = () => {
+  const [projectList, setProjectList] = useState([]);
+  const [userId, setUserId] = useState();
+
+  useEffect(() => {
+      // Async operation
+      asyncOp();
+  }, []);
+
+  async function asyncOp(){
+    try {
+      const userAttributes = await fetchUserAttributes();
+      console.log("userAttributes: ", userAttributes.sub);
+      
+      setUserId(userAttributes.sub);
+
+      await fetchData(userAttributes.sub);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const fetchData = async (userID) => {
+    const url = `https://bkqwkigeji.execute-api.ca-central-1.amazonaws.com/prod/appData?user_id=${userID}`;
+
+    try {
+      const response = await axios.get(url);
+      setProjectList(response.data);
+      console.log("::: ", url, response.data);
+      // Handle the response data as needed
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle the error
+    }
+  };
+
+  const handleDelete = async (projectID, userID) => {
+    // Delete project
+    const url = `https://bkqwkigeji.execute-api.ca-central-1.amazonaws.com/prod/appData?user_id=${userID}&project_id=${projectID}`;
+
+    try {
+      const response = await axios.delete(url);
+      console.log("deleted");
+
+      fetchData(projectID);
+      // Handle the response data as needed
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // Handle the error
+    }
+
+    console.log("Hello World");
+  };
+  const handleEdit = (projectID) => {
+    // Redirect new page
+    console.log("Hello World");
+  };
+
+  const handleEditDelete = () => {
+    // Redirect new page
+    window.location.href = '/list-config';
+  };
+
+
   let username = "mockEmail";
   return (
     <div className="container mx-auto px-4">
-      {/* Header */}
-      <header className="flex justify-between items-center py-4 px-6 bg-black">
-        {/* Logo and Username */}
-        <div className="flex items-center">
-          <img src={logo} alt="FocusFHIR Logo" className="h-14" />
-          <span className="ml-4 text-white font-semibold text-xl tracking-tight">
-            {username}
-          </span>
-        </div>
-
-        {/* Logout Button */}
-        <div>
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-            Logout
-          </button>
-        </div>
-      </header>
-
+      <Header />
       <div className="flex justify-between items-center my-6">
         <h1 className="text-2xl font-bold">Applications List</h1>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={handleEditDelete}
         >
-          New App+
+          New App +
         </button>
       </div>
-      <div className="bg-white shadow-md rounded my-6">
-        <table className="text-left w-full border-collapse">
-          <thead>
-            <tr>
-              <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
-                Title
-              </th>
-              <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light text-right">
-                Creation Time
-              </th>
-              <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light text-right">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockData.map((app, index) => (
-              <tr key={index} className="hover:bg-grey-lighter">
-                <td className="py-4 px-6 border-b border-grey-light">
-                  {app.title}
-                </td>
-                <td className="py-4 px-6 border-b border-grey-light text-right">
-                  {app.creationTime}
-                </td>
-                <td className="py-4 px-6 border-b border-grey-light text-right">
-                  <button
-                    className="text-sm text-blue-500 hover:text-blue-800 mr-3"
-                    onClick={handleEditDelete}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="text-sm text-red-500 hover:text-red-800"
-                    onClick={handleEditDelete}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="bg-white shadow-md rounded my-6">
+          <table className="text-left w-full border-collapse">
+            <thead>
+              <tr>
+                <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+                  Title
+                </th>
+                <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light text-right">
+                  Creation Time
+                </th>
+                <th className="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light text-right">
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {projectList.map((app, index) => (
+                <tr key={index} className="hover:bg-grey-lighter">
+                  <td className="py-4 px-6 border-b border-grey-light">
+                    {app.project_name}
+                  </td>
+                  <td className="py-4 px-6 border-b border-grey-light text-right">
+                    {app.created_date}
+                  </td>
+                  <td className="py-4 px-6 border-b border-grey-light text-right">
+                    
+                    <button
+                      className="text-sm text-red-500 hover:text-red-800"
+                      onClick={() => handleDelete(app.project_id, userId)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      
     </div>
   );
 };

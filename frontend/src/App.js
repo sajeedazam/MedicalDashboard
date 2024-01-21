@@ -16,7 +16,7 @@ function App({ signOut, user }) {
           <Route path="/" element={<Dashboard />} />
           <Route path="/smartAuth" element={<SmartAuth />} />
           <Route path="/config" element={<Config />} />
-          {/* <Route path="/list-config" element={<ListConfig />} /> */}
+          <Route path="/list-config" element={<ListConfig />} />
         </Routes>
       </BrowserRouter>
 
