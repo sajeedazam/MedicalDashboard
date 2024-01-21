@@ -23,6 +23,11 @@ export default function Config() {
   const [medDiagData, setMedDiagData] = useState([]);
   const [statusList, setStatusList] = useState(null);
   const [loadPopup, setLoadPopup] = useState(false);
+  const [showPatientId, setShowPatientId] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+  const [showImmunization, setShowImmunization] = useState(false);
+  const [showMedical, setShowMedical] = useState(false);
+  const [title, setTitle] = useState("");
 
   function getStatusList(tableData) {
     if (tableData) {
@@ -62,6 +67,17 @@ export default function Config() {
       });
     // Async operation
     asyncOp();
+    const storedCategories =
+      JSON.parse(localStorage.getItem("selectedCategories")) || [];
+
+    // Set states based on stored categories
+    setShowPatientId(storedCategories.includes("Patient Contact"));
+    setShowContact(storedCategories.includes("Patient Contact"));
+    setShowImmunization(storedCategories.includes("Immun."));
+    setShowMedical(storedCategories.includes("Medical"));
+    const storedTitle = localStorage.getItem("title");
+
+    setTitle(storedTitle || "Default Title");
   }, []);
 
   // Async operation
@@ -192,28 +208,32 @@ export default function Config() {
       </div>
       <br></br>
       {/*Immunization*/}
-      <div className="immunizations-list">
-        <table>
-          <tbody>
-            <tr>
-              <td>Immunizations: </td>
-              <td>{immunizations}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {showImmunization && (
+        <div className="immunization-section">
+          <table>
+            <tbody>
+              <tr>
+                <td>Immunizations:</td>
+                <td>{immunizations}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
       <br></br>
       {/* Medications List */}
-      <div className="medications-list">
-        <table>
-          <tbody>
-            <tr>
-              <td>Medications:</td>
-              <td>{medications}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {showMedical && (
+        <div className="medical-section">
+          <table>
+            <tbody>
+              <tr>
+                <td>Medications:</td>
+                <td>{medications}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
       {/* Diagnositics */}
       <div
         style={{
