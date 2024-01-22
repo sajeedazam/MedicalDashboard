@@ -7,8 +7,8 @@ export default function SmartAuth() {
   FHIR.oauth2
     .authorize({
       redirectUri: "/config",
-      clientSecret: "eiH3IQD4fTp7PeNGWkJcVv75o8FHqkCW",
-      client_id: "339e40ff-0ef8-47f5-98ea-a5f34631f336",
+      clientSecret: "",
+      client_id: "",
       scope:
         "patient/Patient.read patient/Observation.read patient/Immunization.read patient/MedicationRequest.read patient/DiagnosticReport.read launch online_access openid profile",
     })
